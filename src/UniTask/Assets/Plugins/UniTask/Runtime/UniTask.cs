@@ -108,7 +108,7 @@ namespace Cysharp.Threading.Tasks
             }
         }
 
-        public UniTask<AsyncUnit> AsAsyncUnitUniTask()
+        internal UniTask<AsyncUnit> AsAsyncUnitUniTask()
         {
             if (this.source == null) return CompletedTasks.AsyncUnit;
 

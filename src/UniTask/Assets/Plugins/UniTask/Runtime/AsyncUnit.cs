@@ -4,7 +4,7 @@ using System;
 
 namespace Cysharp.Threading.Tasks
 {
-    public readonly struct AsyncUnit : IEquatable<AsyncUnit>
+    internal readonly struct AsyncUnit : IEquatable<AsyncUnit>
     {
         public static readonly AsyncUnit Default = new AsyncUnit();
 

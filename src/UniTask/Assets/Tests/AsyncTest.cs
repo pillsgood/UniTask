@@ -197,18 +197,12 @@ namespace Cysharp.Threading.TasksTests
             var currentThreadId = Thread.CurrentThread.ManagedThreadId;
 
 
-
             await UniTask.SwitchToThreadPool();
             //await UniTask.SwitchToThreadPool();
             //await UniTask.SwitchToThreadPool();
 
 
-
-
-
-
             var switchedThreadId = Thread.CurrentThread.ManagedThreadId;
-
 
 
             currentThreadId.Should().NotBe(switchedThreadId);
@@ -440,29 +434,6 @@ namespace Cysharp.Threading.TasksTests
             yield return new WaitForSeconds(3);
         }
 
-        [UnityTest]
-        public IEnumerator ToObservable() => UniTask.ToCoroutine(async () =>
-        {
-            var completedTaskObserver = new ToObservableObserver<AsyncUnit>();
-            completedTaskObserver.OnNextCalled.Should().BeFalse();
-            completedTaskObserver.OnCompletedCalled.Should().BeFalse();
-            completedTaskObserver.OnErrorCalled.Should().BeFalse();
-            UniTask.CompletedTask.ToObservable().Subscribe(completedTaskObserver);
-            completedTaskObserver.OnNextCalled.Should().BeTrue();
-            completedTaskObserver.OnCompletedCalled.Should().BeTrue();
-            completedTaskObserver.OnErrorCalled.Should().BeFalse();
-
-            var delayFrameTaskObserver = new ToObservableObserver<AsyncUnit>();
-            UniTask.DelayFrame(1).ToObservable().Subscribe(delayFrameTaskObserver);
-            delayFrameTaskObserver.OnNextCalled.Should().BeFalse();
-            delayFrameTaskObserver.OnCompletedCalled.Should().BeFalse();
-            delayFrameTaskObserver.OnErrorCalled.Should().BeFalse();
-            await UniTask.DelayFrame(1);
-            delayFrameTaskObserver.OnNextCalled.Should().BeTrue();
-            delayFrameTaskObserver.OnCompletedCalled.Should().BeTrue();
-            delayFrameTaskObserver.OnErrorCalled.Should().BeFalse();
-        });
-
         class ToObservableObserver<T> : IObserver<T>
         {
             public bool OnNextCalled { get; private set; }
@@ -473,7 +444,6 @@ namespace Cysharp.Threading.TasksTests
             public void OnCompleted() => OnCompletedCalled = true;
             public void OnError(Exception error) => OnErrorCalled = true;
         }
-
 
 #endif
 #endif

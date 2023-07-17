@@ -2,7 +2,6 @@
 
 using System.Threading;
 using UnityEngine;
-using Cysharp.Threading.Tasks.Triggers;
 using System;
 using Cysharp.Threading.Tasks.Internal;
 
@@ -27,17 +26,6 @@ namespace Cysharp.Threading.Tasks
         public static IDisposable CancelAfterSlim(this CancellationTokenSource cts, TimeSpan delayTimeSpan, DelayType delayType = DelayType.DeltaTime, PlayerLoopTiming delayTiming = PlayerLoopTiming.Update)
         {
             return PlayerLoopTimer.StartNew(delayTimeSpan, false, delayType, delayTiming, cts.Token, CancelCancellationTokenSourceStateDelegate, cts);
-        }
-
-        public static void RegisterRaiseCancelOnDestroy(this CancellationTokenSource cts, Component component)
-        {
-            RegisterRaiseCancelOnDestroy(cts, component.gameObject);
-        }
-
-        public static void RegisterRaiseCancelOnDestroy(this CancellationTokenSource cts, GameObject gameObject)
-        {
-            var trigger = gameObject.GetAsyncDestroyTrigger();
-            trigger.CancellationToken.RegisterWithoutCaptureExecutionContext(CancelCancellationTokenSourceStateDelegate, cts);
         }
     }
 }
